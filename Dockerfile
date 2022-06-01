@@ -1,13 +1,11 @@
-FROM ubuntu:22.04 
+FROM trueosiris/ubuntu-dotnet 
 USER root
 LABEL maintainer="Tim Chaubet"
-VOLUME ["/mnt/vrising/server", "/mnt/vrising/persistentdata"]
+VOLUME ["/mnt/steam/serverfiles", "/mnt/steam/persistentdata"]
 
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt update -y && \
     apt-get upgrade -y && \
-    apt-get install -y  apt-utils && \
-    apt-get install -y  software-properties-common && \
     add-apt-repository multiverse && \
     dpkg --add-architecture i386 && \
     apt update -y && \
@@ -23,9 +21,6 @@ RUN useradd -m steam && cd /home/steam && \
                    steamcmd && \
     ln -s /usr/games/steamcmd /usr/bin/steamcmd
 #RUN apt install -y mono-complete
-RUN apt install -y wine 
-RUN apt install -y xserver-xorg \
-                   xvfb
 RUN rm -rf /var/lib/apt/lists/* && \
     apt clean && \
     apt autoremove -y
